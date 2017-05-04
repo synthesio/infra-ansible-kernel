@@ -1,0 +1,7 @@
+- name: install kernel related packages according to synthesio policy
+  apt:
+    pkg: "{{ item.name }}"
+    state: "{{ item.state |default('present') }}"
+    default_release: "{{ item.default_release |default('') }}"
+    cache_valid_time: "{{ item.cache_valid_time | default(3600) }}"
+  with_items: "{{ kernel_config[ansible_os_family.lower()][ansible_distribution_release.lower()] }}"
