@@ -1,14 +1,11 @@
+# Kernel deployment for Ansible
 
-This is a synthesio ansible role
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-Intro
-=====
+## Intro
 
 The kernel role deploys and configures debian kernels
 
-debian-kernel role parameters
------------------------------
+### debian-kernel role parameters
+
 
 here is the current defaults as example
 

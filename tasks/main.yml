@@ -1,4 +1,4 @@
-- name: install kernel related packages according to synthesio policy
+- name: install kernel related packages according to defined policy
   apt:
     pkg: "{{ item.name }}"
     state: "{{ item.state |default('present') }}"
