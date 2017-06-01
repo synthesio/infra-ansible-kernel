@@ -1,0 +1,24 @@
+---
+- name: add backports repository
+  apt_repository:
+    repo: "deb {{ backports_config.uri }} {{ backports_config.components }}"
+    state: present
+    update_cache: yes
+    
+- name: install kernel related packages according to defined policy
+  apt:
+    pkg: "{{ item.name }}"
+    state: "{{ item.state |default('present') }}"
+    default_release: "{{ item.default_release |default('') }}"
+    cache_valid_time: "{{ item.cache_valid_time | default(3600) }}"
+  with_items: "{{ kernel_config[ansible_os_family.lower()][ansible_distribution_release.lower()].packages }}"
+
+- name: update default grub
+  template:
+    src: grub.j2
+    dest: /etc/default/grub
+  when: (ansible_kernel | match("{{ linux_kernel_version }}")) == false
+
+- name: update grub
+  shell: update-grub
+  when: (ansible_kernel | match("{{ linux_kernel_version }}")) == false
