@@ -12,13 +12,11 @@
     default_release: "{{ item.default_release |default('') }}"
     cache_valid_time: "{{ item.cache_valid_time | default(3600) }}"
   with_items: "{{ kernel_config[ansible_os_family.lower()][ansible_distribution_release.lower()].packages }}"
+  notify: update grub
 
 - name: update default grub
   template:
     src: grub.j2
     dest: /etc/default/grub
-  when: (ansible_kernel | match("{{ linux_kernel_version }}")) == false
+  notify: update grub
 
-- name: update grub
-  shell: update-grub
-  when: (ansible_kernel | match("{{ linux_kernel_version }}")) == false
