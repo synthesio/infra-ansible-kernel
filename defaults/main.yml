@@ -5,16 +5,21 @@ backports_config:
   components: "{{ ansible_distribution_release }}-backports main contrib non-free"
 
 linux_kernel_version: 4.9.0-0.bpo.2-amd64
+default_grub_elevator: "{% if ansible_virtualization_type == 'VMware' %}noop{% else %}deadline{% endif %}"
 
 kernel_config:
   debian:
     stretch:
-      grub_menuentry:  ""
+      grub:
+        menuentry:  ""
+        elevator: "{{ default_grub_elevator }}"
       packages:
         - name: "linux-image-amd64"
           state: "latest"
     jessie:
-      grub_menuentry:  "Debian GNU/Linux, with Linux {{ linux_kernel_version }}"
+      grub:
+        menuentry:  "Debian GNU/Linux, with Linux {{ linux_kernel_version }}"
+        elevator: "{{ default_grub_elevator }}"
       packages:
         - name: "linux-image-{{ linux_kernel_version }}"
           default_release: "jessie-backports"
@@ -22,3 +27,4 @@ kernel_config:
           default_release: "jessie-backports"
         - name: "linux-base=4.3~bpo8+1"
           default_release: "jessie-backports"
+
