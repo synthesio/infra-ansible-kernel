@@ -1,0 +1,17 @@
+---
+
+# We need to reconfigure mdadm after a kernel upgrade to ensure it will auto-assemble at next boot.
+# on doc09 and deduptwitter02 we experienced this error : without reconfiguring + updating grub, the auto-assemble won't be done at boot,
+# so we had to connect via IPMI and manually mdadm --assemble --scan.
+
+- name: debconf for mdadm
+  debconf:
+    name: mdadm
+    question: "{{ item.question }}"
+    value: "{{ item.value }}"
+    vtype:  "{{ item.vtype }}"
+  with_items: "{{ debconf.mdadm }}"
+
+- name: dpkg reconfigure mdadm
+  shell: dpkg-reconfigure -f noninteractive mdadm
+  notify: update grub

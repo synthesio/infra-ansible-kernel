@@ -1,0 +1,16 @@
+---
+
+- name: test if mdadmraid is active
+  shell: grep -sc active /proc/mdstat || echo 0 --even-in-check-mode
+  register: ismdadm
+  tags:
+    - mdadm
+    - configure
+  changed_when: False
+  check_mode: no
+
+- include: mdadm.yml
+  when: ismdadm.stdout|int > 0 and just_rebooted.changed
+  tags:
+    - mdadm
+    - configure

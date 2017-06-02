@@ -28,3 +28,14 @@ kernel_config:
         - name: "linux-base=4.3~bpo8+1"
           default_release: "jessie-backports"
 
+debconf:
+  mdadm:
+    - question: mdadm/autocheck
+      value: false
+      vtype: select
+    - question: mdadm/initrdstart
+      value: all
+      vtype: string
+    - question: mdadm/start_daemon
+      value: false
+      vtype: select
