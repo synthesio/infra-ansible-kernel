@@ -4,8 +4,10 @@ backports_config:
   uri: http://http.debian.net/debian
   components: "{{ ansible_distribution_release }}-backports main contrib non-free"
 
-linux_kernel_version: 4.9.0-0.bpo.2-amd64
+linux_kernel_version: 4.9.0-0.bpo.3-amd64
 default_grub_elevator: "{% if ansible_virtualization_type == 'VMware' %}noop{% else %}deadline{% endif %}"
+
+reboot_delay: "{% if ansible_virtualization_type == 'VMware' %}30{% else %}300{% endif %}"
 
 kernel_config:
   debian:
@@ -22,8 +24,6 @@ kernel_config:
         elevator: "{{ default_grub_elevator }}"
       packages:
         - name: "linux-image-{{ linux_kernel_version }}"
-          default_release: "jessie-backports"
-        - name: "linux-headers-{{ linux_kernel_version }}"
           default_release: "jessie-backports"
         - name: "linux-base=4.3~bpo8+1"
           default_release: "jessie-backports"
