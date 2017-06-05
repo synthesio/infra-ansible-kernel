@@ -14,4 +14,3 @@
 
 - name: dpkg reconfigure mdadm
   shell: dpkg-reconfigure -f noninteractive mdadm
-  notify: update grub

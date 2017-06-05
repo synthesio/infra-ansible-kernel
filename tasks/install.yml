@@ -18,6 +18,3 @@
   template:
     src: grub.j2
     dest: /etc/default/grub
-
-- name: update grub
-  shell: update-grub
