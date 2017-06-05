@@ -10,7 +10,7 @@
   check_mode: no
 
 - include: mdadm.yml
-  when: ismdadm.stdout|int > 0 and just_rebooted.changed
+  when: ismdadm.stdout|int > 0 and ansible_uptime_seconds < reboot_delay
   tags:
     - mdadm
     - configure

@@ -8,9 +8,16 @@
   when: (ansible_kernel | match("{{linux_kernel_version}}")) == false
 
 - name: waiting for server to come back
-  local_action: wait_for host={{ inventory_hostname }} state=started port=22 delay=60 timeout=1200 connect_timeout=15
-  register: just_rebooted
+  local_action:
+    module: wait_for
+    args:
+      host: "{{ inventory_hostname }}"
+      state: started
+      port: 22
+      delay: "{{ reboot_delay }}"
+      timeout: 1500
+      connect_timeout: 15
   when: (ansible_kernel | match("{{linux_kernel_version}}")) == false
 
-- name: display kernel version
-  debug: msg="kernel is now {{ansible_kernel}}"
+- name: check running kernel
+  shell: uname -a
