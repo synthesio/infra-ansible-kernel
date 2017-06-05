@@ -4,7 +4,9 @@ backports_config:
   uri: http://http.debian.net/debian
   components: "{{ ansible_distribution_release }}-backports main contrib non-free"
 
-linux_kernel_version: 4.9.0-0.bpo.3-amd64
+linux_kernel_version:
+    jessie: "4.9.0-0.bpo.3-amd64"
+    stretch: "4.9.0-3-amd64"
 default_grub_elevator: "{% if ansible_virtualization_type == 'VMware' %}noop{% else %}deadline{% endif %}"
 
 reboot_delay: "{% if ansible_virtualization_type == 'VMware' %}30{% else %}300{% endif %}"
@@ -13,14 +15,14 @@ kernel_config:
   debian:
     stretch:
       grub:
-        menuentry:  ""
+        menuentry:  "Advanced options for Debian GNU/Linux>Debian GNU/Linux, with Linux {{ linux_kernel_version.stretch }}"
         elevator: "{{ default_grub_elevator }}"
       packages:
-        - name: "linux-image-amd64"
+        - name: "linux-image-{{ linux_kernel_version.stretch }}"
           state: "latest"
     jessie:
       grub:
-        menuentry:  "Debian GNU/Linux, with Linux {{ linux_kernel_version }}"
+        menuentry:  "Debian GNU/Linux, with Linux {{ linux_kernel_version.jessie }}"
         elevator: "{{ default_grub_elevator }}"
       packages:
         - name: "linux-image-{{ linux_kernel_version }}"
