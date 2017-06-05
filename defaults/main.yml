@@ -25,7 +25,7 @@ kernel_config:
         menuentry:  "Debian GNU/Linux, with Linux {{ linux_kernel_version.jessie }}"
         elevator: "{{ default_grub_elevator }}"
       packages:
-        - name: "linux-image-{{ linux_kernel_version }}"
+        - name: "linux-image-{{ linux_kernel_version.jessie }}"
           default_release: "jessie-backports"
         - name: "linux-base=4.3~bpo8+1"
           default_release: "jessie-backports"
