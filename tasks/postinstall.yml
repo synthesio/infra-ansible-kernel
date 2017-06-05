@@ -9,6 +9,7 @@
 
 - name: waiting for server to come back
   local_action: wait_for host={{ inventory_hostname }} state=started port=22 delay=60 timeout=1200 connect_timeout=15
+  register: just_rebooted
   when: (ansible_kernel | match("{{linux_kernel_version}}")) == false
 
 - name: display kernel version
