@@ -5,7 +5,7 @@
   async: 0
   poll: 0
   ignore_errors: true
-  when: (ansible_kernel | match("{{linux_kernel_version}}")) == false
+  when: (ansible_kernel | match("{{linux_kernel_version[ansible_distribution_release.lower()]}}")) == false
 
 - name: waiting for server to come back
   local_action:
@@ -17,7 +17,7 @@
       delay: "{{ reboot_delay }}"
       timeout: 1500
       connect_timeout: 15
-  when: (ansible_kernel | match("{{linux_kernel_version}}")) == false
+  when: (ansible_kernel | match("{{linux_kernel_version[ansible_distribution_release.lower()]}}")) == false
 
 - name: check running kernel
   shell: uname -a
