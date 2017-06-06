@@ -22,7 +22,7 @@ kernel_config:
           state: "latest"
     jessie:
       grub:
-        menuentry:  "Debian GNU/Linux, with Linux {{ linux_kernel_version.jessie }}"
+        menuentry:  "Advanced options for Debian GNU/Linux>Debian GNU/Linux, with Linux {{ linux_kernel_version.jessie }}"
         elevator: "{{ default_grub_elevator }}"
       packages:
         - name: "linux-image-{{ linux_kernel_version.jessie }}"
